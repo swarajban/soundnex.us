@@ -1,0 +1,13 @@
+{
+  "firebase": "soundnexus",
+  "public": "dist",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**",
+    "src",
+    ".idea",
+    "soundnex.us.iml",
+    "README.md"
+  ]
+}

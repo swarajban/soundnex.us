@@ -1,0 +1,8 @@
+dist/
+
+bower_components
+node_modules
+
+# IntelliJ Project Files
+.idea/
+soundnex.us.iml

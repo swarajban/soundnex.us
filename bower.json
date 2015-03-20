@@ -1,0 +1,22 @@
+{
+  "name": "soundnex.us",
+  "version": "0.0.0",
+  "homepage": "https://github.com/swarajban/soundnex.us",
+  "authors": [
+    "Swaraj Banerjee <swarajban@gmail.com>"
+  ],
+  "description": "The SoundNexus 2.0 remote music playing app",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "0.13.1",
+    "react-router": "0.12.4"
+  }
+}

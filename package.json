@@ -1,0 +1,22 @@
+{
+  "name": "soundnex.us",
+  "version": "1.0.0",
+  "description": "The SoundNexus 2.0 remote music playing app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/swarajban/soundnex.us.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/swarajban/soundnex.us/issues"
+  },
+  "homepage": "https://soundnexus.firebaseapp.com/",
+  "private": true,
+  "devDependencies": {
+    "gulp": "3.8.11",
+    "gulp-babel": "4.0.0",
+    "gulp-concat": "2.5.2",
+    "gulp-react": "3.0.1"
+  }
+}
