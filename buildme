@@ -1,0 +1,17 @@
+#!/bin/bash
+set -e #Exit with error code on error.
+
+echo "Installing node modules..."
+npm install
+echo "...done"
+
+echo "Installing bower components..."
+bower install
+echo "...done"
+
+echo "Running gulp build step..."
+gulp
+echo "...done"
+
+
+echo "Finished building soundnex.us!"
