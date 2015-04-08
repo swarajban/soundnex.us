@@ -7,8 +7,7 @@ var inject = require('gulp-inject');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var minifyCSS = require('gulp-minify-css');
-var inject = require('gulp-inject');
-var livereload = require('gulp-livereload');
+var connect = require('gulp-connect');
 var sass = require('gulp-sass');
 
 
@@ -37,7 +36,8 @@ var paths = {
     ],
     jsmin: [
       bower + 'react/react.min.js',
-      bower + 'react-router/build/global/ReactRouter.min.js'
+      bower + 'react-router/build/global/ReactRouter.min.js',
+      bower + 'classnames/index.js'
     ]
   },
   dist: {
@@ -47,6 +47,7 @@ var paths = {
   }
 };
 
+// HTML tasks
 gulp.task('html.dev', ['js', 'css'], function () {
   return injectHTML([
     'css/app.css',
@@ -66,6 +67,10 @@ gulp.task('html.min', ['js', 'css'], function () {
 
 gulp.task('html', ['html.dev', 'html.min']);
 
+gulp.task('watch.html', ['html'], function () {
+  gulp.watch(paths.src.html, ['html']);
+});
+
 function injectHTML (sourcePaths, outputName) {
   var injectSources = gulp.src(sourcePaths, {
     read: false,
@@ -80,6 +85,8 @@ function injectHTML (sourcePaths, outputName) {
     .pipe(gulp.dest(paths.dist.html));
 }
 
+
+// JS Tasks
 
 gulp.task('vendor.js', function () {
   return gulp.src(paths.vendor.js)
@@ -105,7 +112,7 @@ gulp.task('src.js', function () {
     }))
     .pipe(rename('app.min.js'))
     .pipe(gulp.dest(paths.dist.js))
-    .pipe(livereload());
+    .pipe(connect.reload());
 });
 
 gulp.task('js', ['src.js', 'vendor.js', 'vendor.jsmin']);
@@ -116,6 +123,7 @@ gulp.task('watch.js', ['js'], function () {
   gulp.watch(paths.vendor.jsmin, ['vendor.jsmin']);
 });
 
+// CSS Tasks
 gulp.task('src.sass', function () {
   return gulp.src(paths.src.sass)
     .pipe(sass())
@@ -123,22 +131,28 @@ gulp.task('src.sass', function () {
     .pipe(rename('app.min.css'))
     .pipe(minifyCSS())
     .pipe(gulp.dest(paths.dist.css))
-    .pipe(livereload());
+    .pipe(connect.reload());
 });
 
 gulp.task('css', ['src.sass']);
 
 gulp.task('watch.css', ['css'], function () {
-  gulp.watch(paths.src.sass, ['src.sass']);
+  gulp.watch(sassSource + '**', ['src.sass']);
 });
 
 
-gulp.task('watch', ['watch.js', 'watch.css'], function () {
-  return livereload.listen();
-});
+// General Tasks
+gulp.task('watch', ['watch.js', 'watch.css', 'watch.html']);
 
+// Start local server on localhost:8000
+gulp.task('serve', ['watch'], function () {
+  connect.server({
+    root: 'dist',
+    port: 8000,
+    livereload: true
+  });
+});
 
 gulp.task('build', ['js', 'css', 'html']);
 
 gulp.task('default', ['build']);
-
