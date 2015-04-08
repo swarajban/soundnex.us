@@ -15,6 +15,7 @@ var sass = require('gulp-sass');
 var src = 'src/';
 var jsxSource = src + 'jsx/';
 var sassSource = src + 'sass/';
+var imagesSource = src + 'images/';
 var jsxComponents = jsxSource + 'components/';
 var bower = 'bower_components/';
 var dist = 'dist/';
@@ -26,6 +27,7 @@ var paths = {
       jsxSource + 'app.jsx'
     ],
     sass: sassSource + 'app.scss',
+    images: imagesSource + '**',
     html: src + 'index.html'
   },
   vendor: {
@@ -43,9 +45,21 @@ var paths = {
   dist: {
     js: dist + 'js/',
     css: dist + 'css/',
+    images: dist + 'images/',
     html: dist
   }
 };
+
+// Image tasks
+gulp.task('images', function () {
+  return gulp.src(paths.src.images)
+    .pipe(gulp.dest(paths.dist.images))
+    .pipe(connect.reload());
+});
+
+gulp.task('watch.images', ['images'], function () {
+  gulp.watch(paths.src.images, ['images']);
+});
 
 // HTML tasks
 gulp.task('html.dev', ['js', 'css'], function () {
@@ -142,11 +156,16 @@ gulp.task('watch.css', ['css'], function () {
 
 
 // General Tasks
-gulp.task('watch', ['watch.js', 'watch.css', 'watch.html']);
+gulp.task('watch', [
+  'watch.js',
+  'watch.css',
+  'watch.images',
+  'watch.html'
+]);
 
 // Start local server on localhost:8000
 gulp.task('serve', ['watch'], function () {
-  connect.server({
+  return connect.server({
     root: 'dist',
     port: 8000,
     livereload: true
